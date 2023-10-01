@@ -52,21 +52,29 @@ def classify_intent(user_input):
 
 def chatbot_loop(user_input, intent):
     bot_name = "Faculty"
-    
+
     user_input_tfidf = vectorizer.transform([user_input])
     similarity_scores = user_input_tfidf.dot(X_tfidf.T).toarray()[0]
     max_similarity = np.max(similarity_scores)
 
-    if max_similarity < 0.5:
-        return f"{bot_name}: I do not understand..."
+    if intent == "IOD_Protocol_Treatment_Codes" and max_similarity >= 0.5:
+        for intent_data in intents['intents']:
+            if intent_data['tag'] == intent:
+                responses = intent_data['responses']
+                response = f"{bot_name}:\n" + "\n".join(responses[0].split('\n')[1:])
+                return response
 
+    # Normal loop for other intents
     for intent_data in intents['intents']:
         if intent_data['tag'] == intent:
             responses = intent_data['responses']
             response = f"{bot_name}: " + random.choice(responses)
             return response
-    
+
+    # Default response for unrecognized intents or low similarity
     return f"{bot_name}: I do not understand..."
+
+
 
 @app.route('/')
 def home():

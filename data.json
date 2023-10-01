@@ -66,6 +66,11 @@
       {
         "tag": "STI_Treatment_Codes",
         "patterns": [
+          "What is STI Codes?",
+          "STI Codes?",
+          "What is STI Code",
+          "STI Code?",
+          "What is the STI Code?",
           "What codes do I have to enter for STI?",
           "Which codes are required for STI?",
           "Can you tell me what codes are needed for STI?",
@@ -789,20 +794,21 @@
         
       },
       {
-        "tag":"IOD_Protocol_Treatment_Codes",
-        "patterns":
-        [
+        "tag": "IOD_Protocol_Treatment_Codes",
+        "patterns": [
             "What codes do I have to enter for IOD?",
+            "What is the treatment code for IOD?",
+            "IOD Codes",
+            "What is the IOD Code?",
             "Are there specific billing or procedure codes that need to be entered when documenting an IOD treatment?",
             "Can you provide guidance on the necessary coding requirements for accurately documenting an IOD procedure?",
             "What are the recommended codes that should be entered in the billing system for proper identification of an IOD treatment?"
         ],
-
-        "responses":[
-            "1.D9360 UG Implant Consultation-IOD 2.D0365L CBCT-One arch Mandible or D0366U CBCT-One arch Maxilla (if implants involve two arches, only put one arch code) 3.DD6190 Digital-Radiographic/Surgical Implant Index 4.D7321 Alveoloplasty W/O Ext., 1-3 Spaces/Quads (always add this code no matter apply or not) X2 5.D6010U1 UG-OD (Overdenture), Surgical Placement x2 6.D6056U1 UG-OD (Overdenture), Prefab. Abutment x2 7.D5875 Modification of Removable Prosthesis 8.D0106 UG Implant Recall Exam-OD"
+        "responses": [
+            "Faculty:\n1. D9360 UG Implant Consultation-IOD\n2. D0365L CBCT-One arch Mandible or D0366U CBCT-One arch Maxilla (if implants involve two arches, only put one arch code)\n3. DD6190 Digital-Radiographic/Surgical Implant Index\n4. D7321 Alveoloplasty W/O Ext., 1-3 Spaces/Quads (always add this code no matter apply or not) X2\n5. D6010U1 UG-OD (Overdenture), Surgical Placement x2\n6. D6056U1 UG-OD (Overdenture), Prefab. Abutment x2\n7. D5875 Modification of Removable Prosthesis\n8. D0106 UG Implant Recall Exam-OD"
         ]
-        
-      },
+    },
+    
       {
         "tag":"About_IOD_Protocol_Approval",
         "patterns":
@@ -1009,6 +1015,8 @@
         "tag":"IOD_Protocol_Torque",
         "patterns":
         [
+            "When can i use torque?",
+            "Torque Wrench",
             "Can I use torque wrench?",
             "Is it permissible for me to utilize a torque wrench during dental procedures?",
             "Can I incorporate the use of a torque wrench as part of my treatment protocol?",

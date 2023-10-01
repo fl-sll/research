@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -5,7 +6,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
+            background-color: white;
             margin: 0;
             padding: 0;
         }
@@ -14,14 +15,15 @@
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            background-color: #fff;
+            background-color: #1e1553;
             border-radius: 10px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            position: relative; 
         }
 
         h1 {
             text-align: center;
-            color: #333;
+            color: black;
         }
 
         .message-container {
@@ -30,7 +32,7 @@
         }
 
         .user-bubble {
-            background-color: #5c107a;
+            background-color: #7678cf;
             color: #fff;
             border-radius: 10px;
             padding: 10px;
@@ -39,8 +41,8 @@
         }
 
         .bot-bubble {
-            background-color: #eee;
-            color: #333;
+            background-color: #3537c7;
+            color: white;
             border-radius: 10px;
             padding: 10px;
             max-width: 70%;
@@ -64,7 +66,7 @@
 
         button[type="submit"] {
             padding: 10px 20px;
-            background-color: #5f0b70;
+            background-color: #7678cf;
             color: #fff;
             border: none;
             border-radius: 0 5px 5px 0;
@@ -72,19 +74,33 @@
         }
 
         button[type="submit"]:hover {
-            background-color: #6e06b3;
+            background-color: #7678cf;
+        }
+        
+     
+        #chatbot-icon {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            width: 50px; 
+            height: auto;
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
     </style>
 </head>
 <body>
     <h1>Chatbot</h1>
     <div id="chat-container">
-        <div id="chat-area"></div>
+        <div id="chat-area">
+            <div class="message-container">
+                <div class="bot-bubble">Chatbot: Hi, welcome to Predoctoral Implant Program. How may I assist you today?</div>
+            </div>
+        </div>
         <form id="user-input-form">
             <input type="text" id="user-input" placeholder="Type your message..." autocomplete="off">
             <button type="submit">Send</button>
         </form>
-    </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         $(document).ready(function() {
@@ -98,15 +114,22 @@
                     url: '/ask',
                     data: { user_input: userInput },
                     success: function(response) {
-                        const botResponse = response.bot_response;
-                        $('#chat-area').append('<div class="message-container"><div class="bot-bubble">' + botResponse + '</div></div>');
-                        // Scroll to the bottom of the chat area
+                        let botResponse = response.bot_response;
+                        if (botResponse.startsWith("Faculty:")) {
+                            //format it as a list
+                            botResponse = botResponse.replace(/\d+\./g, '<br>$&');
+                            $('#chat-area').append('<div class="message-container"><div class="bot-bubble">' + botResponse + '</div></div>');
+                        } else {
+                          
+                            $('#chat-area').append('<div class="message-container"><div class="bot-bubble">' + botResponse + '</div></div>');
+                        }
                         $('#chat-area').scrollTop($('#chat-area')[0].scrollHeight);
                     }
                 });
             });
         });
-    </script>
+     </script>
+     
+
 </body>
 </html>
-
