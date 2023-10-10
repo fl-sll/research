@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -94,7 +93,7 @@
     <div id="chat-container">
         <div id="chat-area">
             <div class="message-container">
-                <div class="bot-bubble">Chatbot: Hi, welcome to Predoctoral Implant Program. How may I assist you today?</div>
+                <div class="bot-bubble">Faculty: Hi, welcome to Predoctoral Implant Program. How may I assist you today?</div>
             </div>
         </div>
         <form id="user-input-form">
@@ -103,33 +102,37 @@
         </form>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
-        $(document).ready(function() {
-            $('#user-input-form').on('submit', function(e) {
-                e.preventDefault();
-                const userInput = $('#user-input').val();
-                $('#chat-area').append('<div class="message-container"><div class="user-bubble">You: ' + userInput + '</div></div>');
-                $('#user-input').val('');
-                $.ajax({
-                    type: 'POST',
-                    url: '/ask',
-                    data: { user_input: userInput },
-                    success: function(response) {
-                        let botResponse = response.bot_response;
-                        if (botResponse.startsWith("Faculty:")) {
-                            //format it as a list
-                            botResponse = botResponse.replace(/\d+\./g, '<br>$&');
-                            $('#chat-area').append('<div class="message-container"><div class="bot-bubble">' + botResponse + '</div></div>');
-                        } else {
-                          
-                            $('#chat-area').append('<div class="message-container"><div class="bot-bubble">' + botResponse + '</div></div>');
-                        }
-                        $('#chat-area').scrollTop($('#chat-area')[0].scrollHeight);
-                    }
-                });
-            });
-        });
-     </script>
-     
+$(document).ready(function() {
+    $('#user-input-form').on('submit', function(e) {
+        e.preventDefault();
+        const userInput = $('#user-input').val();
+        $('#chat-area').append('<div class="message-container"><div class="user-bubble">You: ' + userInput + '</div></div>');
+        $('#user-input').val('');
+        $.ajax({
+            type: 'POST',
+            url: '/ask',
+            data: { user_input: userInput },
+            success: function(response) {
+                let botResponse = response.bot_response;
+                if (botResponse.startsWith("Faculty:")) {
+                    // format it as a list
+                    botResponse = botResponse.replace(/\d+\./g, '<br>$&');
+                    botResponse = botResponse.replace(/(\d+\.\s+D0107)(?=<br>)/g, '$1<br>');
+                    
+                    $('#chat-area').append('<div class="message-container"><div class="bot-bubble">' + botResponse + '</div></div>');
+                } else if (botResponse.startsWith("For extracted site:")) {
 
+                    $('#chat-area').append('<div class="message-container"><div class="bot-bubble">' + botResponse + '</div></div>');
+                } else {
+                    $('#chat-area').append('<div class="message-container"><div class="bot-bubble">' + botResponse + '</div></div>');
+                }
+                $('#chat-area').scrollTop($('#chat-area')[0].scrollHeight);
+            }
+        });
+    });
+});
+
+     </script>
+    </div>
 </body>
 </html>

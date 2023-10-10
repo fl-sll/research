@@ -22,7 +22,6 @@ for intent in intents['intents']:
         X.append(pattern)
         y.append(intent['tag'])
 
-
 vectorizer = TfidfVectorizer()
 X_tfidf = vectorizer.fit_transform(X)
 
@@ -30,19 +29,29 @@ labels = list(set(y))
 label_to_idx = {label: idx for idx, label in enumerate(labels)}
 y_numeric = np.array([label_to_idx[label] for label in y])
 
-
 param_grid = {
     'C': [0.1, 1, 10],
     'kernel': ['linear', 'rbf', 'sigmoid'],
     'gamma': ['scale', 'auto'] + [0.001, 0.01, 0.1, 1, 10]
 }
 
-
 svm_model = SVC()
 grid_search = GridSearchCV(svm_model, param_grid, cv=5, n_jobs=-1)
 grid_search.fit(X_tfidf, y_numeric)
 best_svm_model = grid_search.best_estimator_
 
+
+def format_responses(responses):
+    formatted_responses = []
+    for response in responses:
+        lines = response.split('\n')
+        formatted_response = []
+        for line in lines:
+            line = line.strip()
+            if line:
+                formatted_response.append(line)
+        formatted_responses.append('<br>'.join(formatted_response))
+    return '<br>'.join(formatted_responses)
 
 def classify_intent(user_input):
     user_input_tfidf = vectorizer.transform([user_input])
@@ -63,6 +72,15 @@ def chatbot_loop(user_input, intent):
                 responses = intent_data['responses']
                 response = f"{bot_name}:\n" + "\n".join(responses[0].split('\n')[1:])
                 return response
+            
+    responses = []  
+
+    if intent == "STI_Treatment_Codes" and max_similarity >= 0.5:
+        for intent_data in intents['intents']:
+            if intent_data['tag'] == intent:
+                responses.extend(intent_data['responses'])
+                formatted_response = format_responses(responses)
+                return f"{bot_name}:\n{formatted_response}"
 
     # Normal loop for other intents
     for intent_data in intents['intents']:
@@ -73,8 +91,6 @@ def chatbot_loop(user_input, intent):
 
     # Default response for unrecognized intents or low similarity
     return f"{bot_name}: I do not understand..."
-
-
 
 @app.route('/')
 def home():

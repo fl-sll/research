@@ -94,8 +94,9 @@
           "Which STI codes should I use?",
           "What STI-related codes do I need to enter?"
         ],
-        "responses": [
-          " For healed site (tooth that has been extracted): 1. D9365 UG Implant Consultation-STI 2. D0365L CBCT-One arch Mandible or D0366U CBCT-One arch Maxilla (if implants involve two arches, only put one arch code) 3. D6010U2 UG surg. Place. Endosteal implant 4. DD6190 Digital-Radiographic/surgical implant index (only charge one for multiple implants) 5. D6104UG Bone Graft at Impl place (always add no matter apply or not) 6. D7952UG Sinus lift-internal (based on CBCT review, consult with faculty) 7. DD6057 Digital-custom abutment 8. DD6058 Digital-all porcelain/ceramic crown on abutment (cement retained) 9. UG-implant recall-STI # For extracted site (tooth is present that needs to be extracted first): 1. D9365 UG Implant Consultation-STI 2. D7140 Extraction 3. D7953UG Extraction site preservation/graft 4. D0365L CBCT-One arch Mandible or D0366U CBCT-One arch Maxilla (if implants involve two arches, only put one arch code) 5. D6010U2 UG surg. Place. Endosteal implant 6. DD6190 Digital-Radiographic/surgical implant index (only charge one for multiple implants) 7. D6104UG Bone Graft at Implant placement (always add no matter apply or not) 8. D7952UG Sinus lift-internal (based on CBCT review, consult with faculty) 9. DD6057 Digital-custom abutment 10. DD6058 Digital-all porcelain/ceramic crown on abutment (cement retained) 11. UG-implant recall-STI"
+        "responses": ["For healed site (tooth that has been extracted):\n1. D9365 2. D0365L or D0366U 3. D6010U2 4. DD6190 5. D6104UG 6. D7952UG (if needed) 7. DD6057 8. DD6058 9. D0107\t",
+        " \nFor extracted site (tooth is present that needs to be extracted first):\n1. D9365 2. D7140 3. D7953UG 4. D0365L or D0366U 5. D6010U2 6. DD6190 7. D6104UG 8. D7952UG (if needed) 9. DD6057 10. DD6058 11. D0107"
+          
         ]
       },
       {
