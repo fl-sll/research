@@ -11,7 +11,7 @@ from pymongo.server_api import ServerApi
 app = Flask(__name__)
 
 # Connect to MongoDB Atlas
-uri = "mongodb+srv://edwardalvin:mBDH6fh9bUjCDcA2@reseearch.a2rwr6l.mongodb.net/?retryWrites=true&w=majority&appName=reseearch"
+uri = "mongodb+srv://Visitor:researchgogogo@reseearch.a2rwr6l.mongodb.net/?retryWrites=true&w=majority&appName=reseearch"
 client = MongoClient(uri, server_api=ServerApi('1'))
 db = client["research"]
 intents_collection = db["data"]
