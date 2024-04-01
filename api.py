@@ -78,6 +78,59 @@ async def get_all_tags():
     except Exception as e:
         return JSONResponse(content={"message": "Internal server error"}, status_code=500)
 
+@app.post("/tags/")
+async def create_tag(tag_data: TagCreate):
+    tag = tag_data.tag
+    data = tag_data.data.dict()
+
+    if collection.find_one({"tag": tag}):
+        raise HTTPException(status_code=400, detail=f"Tag '{tag}' already exists")
+
+    try:
+        collection.insert_one({"tag": tag, **data})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to create tag: {str(e)}")
+
+    return {"message": f"Tag '{tag}' created successfully"}
+
+@app.put("/tags/{tag_id}")
+async def update_tag(tag_id: str, tag_data: TagCreate):
+    data = tag_data.data.dict()
+
+    try:
+        tag_object_id = ObjectId(tag_id)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Invalid ObjectId")
+
+    if not collection.find_one({"_id": tag_object_id}):
+        raise HTTPException(status_code=404, detail=f"Tag with id '{tag_id}' not found")
+
+    try:
+        collection.update_one({"_id": tag_object_id}, {"$set": data})
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to update tag: {str(e)}")
+
+    return {"message": f"Tag with id '{tag_id}' updated successfully"}
+
+@app.delete("/tags/{tag_id}")
+async def delete_tag(tag_id: str):
+    try:
+        tag_object_id = ObjectId(tag_id)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Invalid ObjectId")
+
+    if not collection.find_one({"_id": tag_object_id}):
+        raise HTTPException(status_code=404, detail=f"Tag with id '{tag_id}' not found")
+
+    try:
+        result = collection.delete_one({"_id": tag_object_id})
+        if result.deleted_count == 1:
+            return {"message": f"Tag with id '{tag_id}' deleted successfully"}
+        else:
+            raise HTTPException(status_code=500, detail="Failed to delete tag")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to delete tag: {str(e)}")
+
 
 @app.get("/responses/")
 async def get_all_responses():
