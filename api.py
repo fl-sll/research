@@ -4,8 +4,18 @@ from pymongo import MongoClient
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 import urllib.parse
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
+
 
 uri = "mongodb+srv://Visitor:researchgogogo@reseearch.a2rwr6l.mongodb.net/"
 
@@ -27,6 +37,14 @@ class ResponseModel(BaseModel):
 class TagCreate(BaseModel):
     tag: str
     data: PatternResponse
+
+@app.get("/contents")
+async def get_contents():
+    try:
+        contents = list(collection.find({}, {"_id": 0}))
+        return contents
+    except Exception as e:
+        return JSONResponse(content={"message": "Internal server error"}, status_code=500)
 
 @app.get("/patterns/")
 async def get_all_patterns():
@@ -173,6 +191,7 @@ async def delete_response(response_id: str):
         return JSONResponse(content={"message": "Response deleted successfully"})
     except Exception as e:
         return JSONResponse(content={"message": "Internal server error"}, status_code=500)
+
 
 
 if __name__ == "__main__":
